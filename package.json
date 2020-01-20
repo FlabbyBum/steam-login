@@ -14,11 +14,11 @@
   "homepage": "http://github.com/cpancake/steam-login",
   "dependencies": {
     "openid": "^2.0.6",
-    "express": "^4.12.2",
-    "bluebird": "^2.9.13",
-    "request-promise": "^4.2.2"
+    "express": "^4.17.1",
+    "bluebird": "^3.7.2",
+    "request-promise": "^4.2.5"
   },
   "devDependencies": {
-    "express-session": "^1.10.3"
+    "express-session": "^1.17"
   }
 }
