@@ -19,18 +19,13 @@ function middleware(opts) {
 	}
 
 	return function(req, res, next) {
-		if(req.session && req.session.steamUser) {
-			req.user = req.session.steamUser;
-			req.logout = logout(req);
-		}
-
 		next();
 	};
 }
 
 function enforceLogin(redirect) {
 	return function(req, res, next) {
-		if(!req.user)
+		if(!req.session.steamUser)
 			return res.redirect(redirect);
 		next();
 	};
@@ -47,10 +42,8 @@ function verify() {
 				return next('Claimed identity is not valid.');
 			fetchIdentifier(result.claimedIdentifier)
 				.then(function(user) {
-					req.user = user;
 					if(useSession) {
-						req.session.steamUser = req.user;
-						req.logout = logout(req);
+						req.session.steamUser = user;
 					}
 					next();
 				})
@@ -104,8 +97,7 @@ function fetchIdentifier(openid) {
 function logout(req) {
 	return function() {
 		delete req.session.steamUser;
-		req.user = null;
 	}
 }
 
-module.exports = { authenticate, verify, enforceLogin, middleware };
+module.exports = { authenticate, verify, enforceLogin, middleware, logout };
